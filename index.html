@@ -91,9 +91,9 @@
             <div class="col-md-7">
               <h4 class="mb-7">Menu</h4>
               <div class="row row-cols-2 row-cols-md-3 g-4">
+            
                 <!-- Menu Items -->
-
-                <!-- Aaralin To! --> 
+                
                 <div class="col">
                   <div class="menu-item card p-3">
                     <img src="image/img/Genie's Sunrise Plate.png" alt="Genie's Sunrise Plate" class="card-img-top mb-2" style="height: 100px; object-fit: cover;">
@@ -103,7 +103,6 @@
                     <button class="btn btn-primary btn-sm" onclick="addToReceipt('Genie’s Sunrise Plate', 199, 'qty-genies-sunrise')">Add to order</button>
                   </div>
                 </div>
-                <!-- Aaralin To! --> 
       
                 <div class="col">
                   <div class="menu-item card p-3">
@@ -198,11 +197,10 @@
         </div>
       
             <!-- Receipt -->
-              <!-- Aaralin To! --> 
             <div class="col-md-4">
                 <h4 class="mb-3">Receipt</h4>
                 <div class="card p-3 mb-3">
-                  <ul id="receipt-items" class="list-unstyled mb-2"></ul> <!-- list unstyle para hindi naka bullet-->
+                  <ul id="receipt-items" class="list-unstyled mb-2"></ul> 
                   <hr>
                   <h5 id="total">Total: ₱0</h5>
                 </div>
@@ -210,46 +208,51 @@
                 <button class="btn btn-outline-danger" onclick="clearReceipt()">Clear</button>
             </div>
         
-          <script> // Aaralin to
-              let total = 0;
-            
-              function addToReceipt(name, price, qtyInputId) {
-                const qty = parseInt(document.getElementById(qtyInputId).value) || 0;
-                if (qty <= 0) {
-                  alert("Please enter a valid quantity.");
-                  return;
+            <script>
+                let total = 0;
+              
+                function addToReceipt(name, price, qtyInputId) {
+                  const qty = parseInt(document.getElementById(qtyInputId).value) || 0;
+                  if (qty <= 0) {
+                    alert("Please enter a valid quantity.");
+                    return;
+                  }
+              
+                  const receipt = document.getElementById("receipt-items");
+                  const item = document.createElement("li");
+                  item.textContent = `${qty} x ${name} - ₱${price * qty}`;
+                  receipt.appendChild(item);
+              
+                  total += price * qty;
+                  document.getElementById("total").textContent = `Total: ₱${total}`;
                 }
-            
-                const receipt = document.getElementById("receipt-items");
-                const item = document.createElement("li");
-                item.textContent = `${qty} x ${name} - ₱${price * qty}`;
-                receipt.appendChild(item);
-  
-                total += price * qty;
-                document.getElementById("total").textContent = `Total: ₱${total}`;
-              }
-              // Aaralin to
-              function printReceipt() {
-                const receiptContent = document.getElementById("receipt-items").innerHTML;
-                const totalText = document.getElementById("total").textContent;
-
-                // Get date & time
-                const now = new Date();
-                const formattedDate = now.toLocaleDateString();
-                const formattedTime = now.toLocaleTimeString();
-
-                const printWindow = window.open('', '', 'width=600,height=600');
-                printWindow.document.write('<html><head><title>Receipt</title>');
-                printWindow.document.write('</head><body>');
-                printWindow.document.write('<h2>GenieRestoBar Receipt</h2>');
-                printWindow.document.write(`<p><strong>Date:</strong> ${formattedDate}</p>`);
-                printWindow.document.write(`<p><strong>Time:</strong> ${formattedTime}</p>`);
-                printWindow.document.write('<ul>' + receiptContent + '</ul>');
-                printWindow.document.write('<h4>' + totalText + '</h4>');
-                printWindow.document.write('</body></html>');
-                printWindow.document.close();
-                printWindow.print();
+              
+                function printReceipt() {
+                  const receiptContent = document.getElementById("receipt-items").innerHTML;
+                  const totalText = document.getElementById("total").textContent;
+              
+                  const now = new Date();
+                  const formattedDate = now.toLocaleDateString();
+                  const formattedTime = now.toLocaleTimeString();
+              
+                  const printWindow = window.open('', '', 'width=600,height=600');
+                  printWindow.document.write('<html><head><title>Receipt</title>');
+                  printWindow.document.write('</head><body>');
+                  printWindow.document.write('<h2>GenieRestoBar Receipt</h2>');
+                  printWindow.document.write(`<p><strong>Date:</strong> ${formattedDate}</p>`);
+                  printWindow.document.write(`<p><strong>Time:</strong> ${formattedTime}</p>`);
+                  printWindow.document.write('<ul>' + receiptContent + '</ul>');
+                  printWindow.document.write('<h4>' + totalText + '</h4>');
+                  printWindow.document.write('</body></html>');
+                  printWindow.document.close();
+                  printWindow.print();
                 }
-            </script> 
+              
+                function clearReceipt() {
+                  document.getElementById("receipt-items").innerHTML = "";
+                  total = 0;
+                  document.getElementById("total").textContent = "Total: ₱0";
+                }
+              </script> 
 </body>
 </html>
